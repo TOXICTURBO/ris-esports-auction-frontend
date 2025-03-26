@@ -13,6 +13,12 @@ interface Team {
   _id: string;
   name: string;
   credits: number;
+  players?: {
+    _id: string;
+    name: string;
+    role: string;
+    soldPrice: number;
+  }[];
 }
 
 export default function AdminPage() {
@@ -23,7 +29,7 @@ export default function AdminPage() {
     role: 'Top',
     basePrice: 100
   });
-  const [selectedPlayer, setSelectedPlayer] = useState<string>('');
+  const [selectedTeam, setSelectedTeam] = useState<string>('');
   const [creditAmount, setCreditAmount] = useState<number>(100);
 
   useEffect(() => {
@@ -156,8 +162,8 @@ export default function AdminPage() {
                 <label className="block text-sm text-gray-400 mb-1">Team</label>
                 <select
                   className="w-full bg-ris-dark border border-ris-light-gray rounded px-3 py-2"
-                  value={selectedPlayer}
-                  onChange={(e) => setSelectedPlayer(e.target.value)}
+                  value={selectedTeam}
+                  onChange={(e) => setSelectedTeam(e.target.value)}
                 >
                   <option value="">Select a team</option>
                   {teams.map(team => (
@@ -176,8 +182,8 @@ export default function AdminPage() {
               </div>
               <button
                 className="bg-ris-blue hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition"
-                onClick={() => selectedPlayer && addCredits(selectedPlayer)}
-                disabled={!selectedPlayer}
+                onClick={() => selectedTeam && addCredits(selectedTeam)}
+                disabled={!selectedTeam}
               >
                 Add Credits
               </button>
@@ -193,7 +199,7 @@ export default function AdminPage() {
                   <span className="text-ris-blue font-mono">${team.credits}</span>
                 </div>
                 <div className="text-sm text-gray-400">
-                  Players: {team.players?.length || 0}
+                  Players: {team.players ? team.players.length : 0}
                 </div>
               </div>
             ))}
